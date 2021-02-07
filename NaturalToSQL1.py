@@ -9,26 +9,16 @@ author: vc6346@rit.edu Viraj Chaudhari
 ''' Libraries imported '''
 
 import os
-java_path = "C:/Program Files/Java/jdk-10.0.2/bin/java.exe"
-os.environ['JAVAHOME'] = java_path
-
 import nltk
-nltk.internals.config_java("C:/Program Files/Java/jdk-10.0.2/bin/java.exe")
-import re
-from nltk import tokenize
-from nltk import RegexpTokenizer
-from nltk.tag import StanfordPOSTagger
-from nltk import word_tokenize
+nltk.internals.config_java(os.environ['JAVA_HOME'])
 import pymysql
 import pymysql.cursors
 import pandas as pd
 import nltk
 from tkinter import *
-from tkinter import ttk
 from nltk import load_parser
 from tabulate import tabulate
-from pandastable import Table,TableModel
-nltk.download('book_grammars')
+# nltk.download('book_grammars')
 table_names_list = []
 
 
@@ -39,7 +29,7 @@ def initial_connection():
 
     connection = pymysql.connect(host='localhost',
                                  user='root',
-                                 password='Mysql@1234',
+                                 password='root',
                                  db='world',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor)
@@ -211,12 +201,10 @@ def natural_to_sql():
 
     root = Tk()
     root.title("Natural Language to SQL Query Converter")
-    root.geometry("800x800+300+300")
+    root.geometry("800x600+100+100")
     root.configure(background='black')
 
-    user_query = StringVar()
-
-    ''' Prints out a sample grammar from nltk library which will is discussed as alternate approach '''
+    ''' Prints out a sample grammar from nltk library which will be discussed as alternate approach '''
     # print("\nSample Grammar from nltk library")
     # nltk.data.show_cfg(('grammars/book_grammars/sql1.fcfg'))
 
@@ -237,12 +225,10 @@ def natural_to_sql():
         print("User input:", query)
         connection = pymysql.connect(host='localhost',
                                      user='root',
-                                     password='Mysql@1234',
+                                     password='root',
                                      db='world',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
-
-
 
         query_split = query.split()
         query = ['#V#' if index.isdigit() else index for index in query_split]
@@ -264,13 +250,11 @@ def natural_to_sql():
         print(tabulate(df, headers=list(df.columns.values), tablefmt='psql'))
 
         tabulated_df = tabulate(df, headers=list(df.columns.values), tablefmt='psql')
-
-
+        
         lblResultDisplay = Label(searchBtn, text=result_obtained)
         lblResultDisplay.pack(pady=15)
         exit_btn = Button(searchBtn, text='Exit', command=quit,font=("arial", 16, 'bold'), width=10,height=1)
         exit_btn.pack(pady=15)
-
         lblResultDisplay = Label(searchBtn, text=tabulated_df)
         lblResultDisplay.pack(pady=30)
 
@@ -291,7 +275,7 @@ def natural_to_sql():
     # Search Button Window For User
     searchBtn = Toplevel(root)
     searchBtn.title("Query Result")
-    searchBtn.geometry("800x800+300+300")
+    searchBtn.geometry("800x800+100+100")
     searchBtn.configure(background='black')
     searchBtn.withdraw()
     root.mainloop()
