@@ -1,0 +1,3 @@
+List all data of cities
+Show ID , name , countrycode , district , population of cities where ID less than 10
+Give name , ID of cities where population between 200000 and 400000 and ID below 100
